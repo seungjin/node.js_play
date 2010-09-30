@@ -1,0 +1,36 @@
+<html>
+<head>
+ <!-- http://faye.jcoglan.com/browser.html -->
+ <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
+ <script src="http://processingjs.org/source/basic-example/processing.init.js"></script>
+ <script src="http://processingjs.org/source/basic-example/processing.js"></script>
+ <script type="text/javascript" src="/faye.js"></script>
+ <script type="text/javascript">
+  $(document).ready(function() {
+    var client = new Faye.Client("/faye");
+    var subscription = client.subscribe('/q', function(msg){
+      switch (msg.type) {
+    	  case "raw":
+          msg.text;
+          break;
+    	
+    	  case "javascript":
+    	    eval(msg.text);
+    		  break;
+    		
+    		case "msg":
+          $(".m").append(msg.text);
+    		  break;
+    		  
+    		default :
+    			break;
+    	} 
+    });
+   });
+ </script>
+</head>
+<body>
+  <div class="m"></div>  
+  <canvas id="c" width="600px" height="400px"></canvas>
+</body>
+</html>
